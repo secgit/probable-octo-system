@@ -17,6 +17,11 @@
   --transition: 0.3s cubic-bezier(.4,0,.2,1);
 }
 
+/* Prevent horizontal overflow on all devices */
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-body);
   background: var(--color-bg);
@@ -321,5 +326,12 @@ body.dark .site-footer {
   }
   .nav-toggle {
     display: flex;
+  }
+  /* Prevent .hero-shape from overflowing on mobile */
+  .hero-shape {
+    right: 0;
+    top: 0;
+    width: 120px;
+    height: 120px;
   }
 }
