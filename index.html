@@ -1,469 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Minimalist Modern Portfolio</title>
-  <!-- Sophisticated font pairing: Inter (sans-serif) & IBM Plex Mono (monospace) -->
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f8f9fa;
-      --fg: #181a1b;
-      --muted: #b0b3b8;
-      --accent: #3a86ff;
-      --border: #e3e4e8;
-      --font-main: 'Inter', system-ui, sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-      --transition: 0.3s cubic-bezier(.4,0,.2,1);
-      --max-width: 700px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #202328; /* Dark grayish blue from image */
+            --text-color: #00FF41; /* Bright green from image */
+            --bar-bright: #00FF41;
+            --bar-dim: #00AA39;   /* Dimmer green for some bars */
+            --font-pixel: 'Press Start 2P', cursive;
+        }
 
-    html {
-      scroll-behavior: smooth;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--font-main);
-      font-size: 18px;
-      letter-spacing: 0.01em;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100%;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-pixel);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-size: 16px; /* Base font size */
+            overflow: hidden; /* Hide scrollbars if content slightly overflows */
+        }
 
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      background: var(--bg);
-    }
+        .container {
+            text-align: center;
+        }
 
-    /* Minimalist vertical nav dots */
-    nav {
-      position: fixed;
-      left: 2.5vw;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .nav-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--border);
-      border: none;
-      outline: none;
-      cursor: pointer;
-      transition: background var(--transition), box-shadow var(--transition);
-      box-shadow: 0 0 0 0 var(--accent);
-      margin: 0;
-      padding: 0;
-    }
-    .nav-dot.active,
-    .nav-dot:hover,
-    .nav-dot:focus {
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(58,134,255,0.08);
-    }
-    .nav-dot:after {
-      content: '';
-      display: block;
-      position: absolute;
-    }
-    nav[aria-label] {
-      /* For screen readers */
-    }
+        .header-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+        }
 
-    /* Main layout */
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      width: 100%;
-    }
+        .sound-wave {
+            display: flex;
+            align-items: flex-end; /* Bars grow upwards */
+            justify-content: center;
+            height: 70px; /* Max height of the wave area */
+            margin-bottom: 10px; /* Space between wave and title */
+            min-width: 300px; /* Minimum width for the wave */
+        }
 
-    section {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
-      will-change: opacity, transform;
-      padding: 0 2rem;
-      box-sizing: border-box;
-    }
-    section.visible {
-      opacity: 1;
-      transform: none;
-    }
+        .bar {
+            background-color: var(--bar-bright);
+            display: inline-block;
+            /* width and margin will be set by JS for variability */
+            /* Default/fallback values if needed */
+            /* width: 6px; */
+            /* margin: 0 2px; */
+            transition: height 0.1s ease-out, background-color 0.2s linear;
+        }
 
-    /* Home Section */
-    #home {
-      border-left: 2px solid var(--border);
-      position: relative;
-      padding-left: 3.5rem;
-      padding-top: 8vh;
-      padding-bottom: 8vh;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .headline {
-      font-family: var(--font-main);
-      font-weight: 600;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      margin: 0 0 1.5rem 0;
-      color: var(--fg);
-      max-width: 90%;
-      word-break: break-word;
-    }
-    .intro {
-      font-family: var(--font-mono);
-      font-size: 1.15rem;
-      color: var(--muted);
-      line-height: 1.7;
-      max-width: 32rem;
-      margin: 0;
-      letter-spacing: 0.01em;
-    }
+        .title {
+            font-size: 3.8rem; /* Adjusted for better fit with typical wave width */
+            line-height: 1;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            letter-spacing: 1px; /* Slight spacing adjustment */
+            text-transform: uppercase; /* Font is already uppercase, but good practice */
+        }
 
-    /* Abstract SVG animation (unique visual element) */
-    .svg-abstract {
-      position: absolute;
-      right: 2vw;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 180px;
-      height: 180px;
-      pointer-events: none;
-      opacity: 0.13;
-      z-index: 0;
-    }
+        .buttons-area {
+            margin-top: 30px;
+        }
 
-    /* Contact Section */
-    #contact {
-      border-left: 2px solid var(--border);
-      position: relative;
-      padding-left: 3.5rem;
-      padding-top: 8vh;
-      padding-bottom: 8vh;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .contact-title {
-      font-family: var(--font-main);
-      font-weight: 600;
-      font-size: 2.2rem;
-      margin-bottom: 1.2rem;
-      color: var(--fg);
-      letter-spacing: -0.01em;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      max-width: 420px;
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-    label {
-      font-family: var(--font-mono);
-      font-size: 1rem;
-      color: var(--muted);
-      margin-bottom: 0.3rem;
-      letter-spacing: 0.02em;
-    }
-    input, textarea {
-      font-family: var(--font-main);
-      font-size: 1.08rem;
-      background: transparent;
-      border: none;
-      border-bottom: 1.5px solid var(--border);
-      color: var(--fg);
-      padding: 0.7em 0.2em;
-      outline: none;
-      transition: border-color var(--transition), background var(--transition);
-      resize: none;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    input:focus, textarea:focus {
-      border-bottom: 1.5px solid var(--accent);
-      background: rgba(58,134,255,0.03);
-    }
-    textarea {
-      min-height: 90px;
-      max-height: 220px;
-    }
-    .form-row {
-      display: flex;
-      flex-direction: column;
-    }
-    .form-error {
-      color: #e63946;
-      font-size: 0.98rem;
-      margin-top: 0.3em;
-      font-family: var(--font-mono);
-      letter-spacing: 0.01em;
-      min-height: 1.2em;
-      opacity: 0.85;
-    }
-    button[type="submit"] {
-      align-self: flex-start;
-      font-family: var(--font-mono);
-      font-size: 1.08rem;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 2.5em;
-      padding: 0.7em 2.2em;
-      cursor: pointer;
-      letter-spacing: 0.08em;
-      font-weight: 500;
-      box-shadow: 0 2px 12px 0 rgba(58,134,255,0.07);
-      transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-      margin-top: 0.5em;
-    }
-    button[type="submit"]:hover, button[type="submit"]:focus {
-      background: #2656a6;
-      box-shadow: 0 4px 18px 0 rgba(58,134,255,0.13);
-      transform: translateY(-2px) scale(1.03);
-    }
+        .btn {
+            display: inline-block;
+            border: 3px solid var(--text-color);
+            padding: 10px 25px;
+            margin: 0 15px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            background-color: transparent;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            text-transform: uppercase;
+        }
 
-    /* Responsive adjustments */
-    @media (max-width: 900px) {
-      .svg-abstract {
-        width: 120px;
-        height: 120px;
-        right: 1vw;
-      }
-      #home, #contact {
-        padding-left: 2rem;
-      }
-      nav {
-        left: 1vw;
-      }
-    }
-    @media (max-width: 600px) {
-      #home, #contact {
-        border-left: none;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        padding-top: 5vh;
-        padding-bottom: 5vh;
-      }
-      .svg-abstract {
-        display: none;
-      }
-      nav {
-        flex-direction: row;
-        left: 50%;
-        top: auto;
-        bottom: 2.5vh;
-        transform: translateX(-50%);
-        gap: 1.2rem;
-      }
-    }
-    @media (max-width: 400px) {
-      .headline {
-        font-size: 2rem;
-      }
-      .contact-title {
-        font-size: 1.3rem;
-      }
-    }
-  </style>
+        .btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+    </style>
 </head>
 <body>
-  <!-- Minimalist navigation dots -->
-  <nav aria-label="Section navigation">
-    <button class="nav-dot active" aria-label="Home" data-target="home"></button>
-    <button class="nav-dot" aria-label="Contact Me" data-target="contact"></button>
-  </nav>
+    <div class="container">
+        <div class="header-area">
+            <div class="sound-wave" id="soundWave">
+                <!-- Bars will be generated by JavaScript -->
+            </div>
+            <h1 class="title">PROJECTS</h1>
+        </div>
+        <div class="buttons-area">
+            <a href="#" class="btn">PROJECT</a>
+            <a href="#" class="btn">CONTACT ME</a>
+        </div>
+    </div>
 
-  <main>
-    <!-- Home Section -->
-    <section id="home" tabindex="-1">
-      <h1 class="headline">
-        Precision in Simplicity.<br>
-        <span style="color:var(--accent);font-family:var(--font-mono);font-weight:500;">Minimalism, Elevated.</span>
-      </h1>
-      <p class="intro">
-        Welcome. This is a digital canvas where clarity, whitespace, and typographic rigor converge.<br>
-        Every element is intentional—crafted for those who appreciate the art of less, but better.
-      </p>
-      <!-- Abstract SVG animation: animated lines and circles -->
-      <svg class="svg-abstract" viewBox="0 0 180 180" fill="none">
-        <g>
-          <circle id="svg-circ" cx="90" cy="90" r="60" stroke="var(--accent)" stroke-width="2" opacity="0.7"/>
-          <line id="svg-line1" x1="30" y1="90" x2="150" y2="90" stroke="var(--accent)" stroke-width="1.5" opacity="0.5"/>
-          <line id="svg-line2" x1="90" y1="30" x2="90" y2="150" stroke="var(--accent)" stroke-width="1.5" opacity="0.5"/>
-        </g>
-      </svg>
-    </section>
+    <script>
+        const soundWaveContainer = document.getElementById('soundWave');
+        const numBars = 50; // Number of bars, adjusted for visual width
+        const maxBarHeight = 65; // Max height in pixels for a bar (relative to sound-wave height)
+        const minBarHeight = 2;  // Min height for a bar to be visible
 
-    <!-- Contact Section -->
-    <section id="contact" tabindex="-1">
-      <div>
-        <h2 class="contact-title">Contact Me</h2>
-        <form id="contact-form" autocomplete="off" novalidate>
-          <div class="form-row">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" required autocomplete="off" spellcheck="false" />
-            <div class="form-error" id="error-name"></div>
-          </div>
-          <div class="form-row">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required autocomplete="off" spellcheck="false" />
-            <div class="form-error" id="error-email"></div>
-          </div>
-          <div class="form-row">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" required></textarea>
-            <div class="form-error" id="error-message"></div>
-          </div>
-          <button type="submit">Send</button>
-        </form>
-      </div>
-    </section>
-  </main>
+        const barBrightColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-bright').trim();
+        const barDimColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-dim').trim();
 
-  <script>
-    // Smooth scroll navigation and active state
-    const navDots = document.querySelectorAll('.nav-dot');
-    const sections = [document.getElementById('home'), document.getElementById('contact')];
+        function createBars() {
+            soundWaveContainer.innerHTML = ''; // Clear existing bars if any
+            for (let i = 0; i < numBars; i++) {
+                const bar = document.createElement('div');
+                bar.classList.add('bar');
+                
+                // Initial random height
+                const initialHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
+                bar.style.height = `${initialHeight}px`;
+                
+                // Initial random color
+                bar.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
+                
+                // Varied width and margin for a more pixelated/dynamic look
+                bar.style.width = `${Math.floor(Math.random() * 4) + 4}px`; // width between 4px and 7px
+                bar.style.margin = `0 ${Math.floor(Math.random() * 2) + 1}px`; // margin 1px or 2px on each side
 
-    navDots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => {
-        sections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-
-    // Update nav dot active state on scroll
-    function updateNav() {
-      const scrollY = window.scrollY + window.innerHeight / 2;
-      sections.forEach((section, idx) => {
-        const rect = section.getBoundingClientRect();
-        const top = window.scrollY + rect.top;
-        const bottom = top + rect.height;
-        if (scrollY >= top && scrollY < bottom) {
-          navDots.forEach(dot => dot.classList.remove('active'));
-          navDots[idx].classList.add('active');
+                soundWaveContainer.appendChild(bar);
+            }
         }
-      });
-    }
-    window.addEventListener('scroll', updateNav);
-    window.addEventListener('resize', updateNav);
-    document.addEventListener('DOMContentLoaded', updateNav);
 
-    // Fade-in animation for sections on scroll
-    function revealSections() {
-      sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.85) {
-          section.classList.add('visible');
+        function animateBars() {
+            const bars = soundWaveContainer.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                let newHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
+                
+                // Smooth transition (optional, for a slightly less jerky animation)
+                // let currentHeight = parseFloat(bar.style.height) || 0;
+                // newHeight = currentHeight + (newHeight - currentHeight) * 0.4; 
+
+                bar.style.height = `${newHeight}px`;
+
+                // Change color occasionally
+                if (Math.random() > 0.8) { // 20% chance to change color
+                    bar.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
+                }
+            });
         }
-      });
-    }
-    window.addEventListener('scroll', revealSections);
-    document.addEventListener('DOMContentLoaded', revealSections);
 
-    // Abstract SVG animation (gentle, continuous)
-    function animateSVG() {
-      const circ = document.getElementById('svg-circ');
-      const line1 = document.getElementById('svg-line1');
-      const line2 = document.getElementById('svg-line2');
-      let t = 0;
-      function frame() {
-        t += 0.008;
-        // Animate circle radius
-        const r = 60 + Math.sin(t) * 6;
-        circ.setAttribute('r', r.toFixed(2));
-        // Animate lines rotation
-        const angle = Math.sin(t/2) * 12;
-        line1.setAttribute('transform', `rotate(${angle},90,90)`);
-        line2.setAttribute('transform', `rotate(${-angle},90,90)`);
-        requestAnimationFrame(frame);
-      }
-      frame();
-    }
-    animateSVG();
-
-    // Contact form validation
-    const form = document.getElementById('contact-form');
-    const errorName = document.getElementById('error-name');
-    const errorEmail = document.getElementById('error-email');
-    const errorMessage = document.getElementById('error-message');
-
-    function validateEmail(email) {
-      // Simple email regex
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    form.addEventListener('submit', function(e) {
-      let valid = true;
-      errorName.textContent = '';
-      errorEmail.textContent = '';
-      errorMessage.textContent = '';
-
-      if (!form.name.value.trim()) {
-        errorName.textContent = 'Please enter your name.';
-        valid = false;
-      }
-      if (!form.email.value.trim()) {
-        errorEmail.textContent = 'Please enter your email.';
-        valid = false;
-      } else if (!validateEmail(form.email.value.trim())) {
-        errorEmail.textContent = 'Please enter a valid email.';
-        valid = false;
-      }
-      if (!form.message.value.trim()) {
-        errorMessage.textContent = 'Please enter a message.';
-        valid = false;
-      }
-      if (!valid) {
-        e.preventDefault();
-      } else {
-        // For demo: show a minimalist confirmation, don't actually submit
-        e.preventDefault();
-        form.reset();
-        [errorName, errorEmail, errorMessage].forEach(e => e.textContent = '');
-        const btn = form.querySelector('button[type="submit"]');
-        btn.textContent = 'Sent!';
-        btn.disabled = true;
-        setTimeout(() => {
-          btn.textContent = 'Send';
-          btn.disabled = false;
-        }, 1800);
-      }
-    });
-
-    // Accessibility: allow keyboard nav to sections
-    navDots.forEach((dot, idx) => {
-      dot.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          sections[idx].focus();
-        }
-      });
-    });
-  </script>
+        // Initial setup
+        createBars();
+        
+        // Start animation
+        setInterval(animateBars, 150); // Animation speed (milliseconds)
+    </script>
 </body>
 </html>
