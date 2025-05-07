@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #202328;
+            --text-color: #00FF41;
+            --font-pixel: 'Press Start 2P', cursive;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-pixel);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .desc {
+            font-size: 1rem;
+            margin-bottom: 40px;
+            opacity: 0.85;
+        }
+        .back-link {
+            color: var(--text-color);
+            text-decoration: underline;
+            font-size: 1rem;
+            font-family: var(--font-pixel);
+            opacity: 0.8;
+        }
+        .back-link:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Contact Me</h1>
+        <div class="desc">This page will soon have a simple way to get in touch.<br>For now, please check back later!</div>
+        <a href="index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</body>
+</html>
