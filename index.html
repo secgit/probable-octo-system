@@ -3,161 +3,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
+    <title>Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #202328; /* Dark grayish blue from image */
-            --text-color: #00FF41; /* Bright green from image */
+            --bg-color: #202328;
+            --text-color: #00FF41;
             --bar-bright: #00FF41;
-            --bar-dim: #00AA39;   /* Dimmer green for some bars */
+            --bar-dim: #00AA39;
             --font-pixel: 'Press Start 2P', cursive;
+            --input-border-color: #00AA39;
+            --placeholder-color: #006821;
         }
-
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: var(--font-pixel);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             margin: 0;
-            font-size: 16px; /* Base font size */
-            overflow: hidden; /* Hide scrollbars if content slightly overflows */
+            font-size: 16px;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
-        .container {
-            text-align: center;
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
         }
 
         .header-area {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 50px;
+            margin-top: 60px;
+            margin-bottom: 40px; /* Space below the soundwave block */
+            width: 100%;
         }
-
         .sound-wave {
             display: flex;
-            align-items: flex-end; /* Bars grow upwards */
+            align-items: flex-end;
             justify-content: center;
-            height: 70px; /* Max height of the wave area */
-            margin-bottom: 10px; /* Space between wave and title */
-            min-width: 300px; /* Minimum width for the wave */
+            height: 70px;
+            /* margin-bottom: 10px; Removed as title is gone */
+            min-width: 300px;
         }
-
         .bar {
             background-color: var(--bar-bright);
             display: inline-block;
-            /* width and margin will be set by JS for variability */
-            /* Default/fallback values if needed */
-            /* width: 6px; */
-            /* margin: 0 2px; */
             transition: height 0.1s ease-out, background-color 0.2s linear;
         }
+        /* .title CSS rule removed as element is gone */
 
-        .title {
-            font-size: 3.8rem; /* Adjusted for better fit with typical wave width */
-            line-height: 1;
-            margin: 0;
-            padding: 0;
-            color: var(--text-color);
-            letter-spacing: 1px; /* Slight spacing adjustment */
-            text-transform: uppercase; /* Font is already uppercase, but good practice */
+        .container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            /* Adjusted padding-top: 60(header-margin-top) + 70(soundwave) + 40(header-margin-bottom) = 170px */
+            padding-top: 170px;
+            box-sizing: border-box;
         }
 
         .buttons-area {
             margin-top: 30px;
         }
-
         .btn {
             display: inline-block;
             border: 3px solid var(--text-color);
             padding: 10px 25px;
-            margin: 0 15px;
+            margin: 10px 10px;
             color: var(--text-color);
             text-decoration: none;
             font-size: 0.9rem;
             background-color: transparent;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            transition: background-color 0.2s, color 0.2s;
             text-transform: uppercase;
+            cursor: pointer;
         }
-
-        .btn:hover {
+        .btn:hover, .btn:focus {
             background-color: var(--text-color);
             color: var(--bg-color);
+            outline: none;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: transparent !important;
+            color: var(--text-color) !important;
+        }
+        .projects-list {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 0 auto 40px auto;
+        }
+        .project-card {
+            background: rgba(32, 35, 40, 0.95);
+            border: 2.5px solid var(--text-color);
+            border-radius: 10px;
+            padding: 30px 25px 20px 25px;
+            box-shadow: 0 0 12px #00FF4160;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .project-title {
+            font-size: 1.3rem;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+        }
+        .project-desc {
+            font-size: 1rem;
+            margin-bottom: 18px;
+            color: var(--text-color);
+            opacity: 0.85;
+        }
+        .project-btn {
+            display: inline-block;
+            border: 2px solid var(--text-color);
+            padding: 7px 18px;
+            color: var(--text-color);
+            background: transparent;
+            font-family: var(--font-pixel);
+            font-size: 0.9rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .project-btn:hover {
+            background: var(--text-color);
+            color: var(--bg-color);
+        }
+        .contact-form-area {
+            margin-top: 0;
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .contact-form-area h2 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        #contactForm {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            background-color: transparent;
+            border: 2px solid var(--input-border-color);
+            color: var(--text-color);
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+            padding: 12px;
+            box-sizing: border-box;
+            width: 100%;
+            outline: none;
+            box-shadow: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            transition: border-color 0.2s;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus {
+            border-color: var(--text-color);
+        }
+        .form-group input[type="text"]::placeholder,
+        .form-group input[type="email"]::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--placeholder-color);
+            font-family: var(--font-pixel);
+            opacity: 1;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .form-message {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            min-height: 1.2em;
+            text-align: center;
+        }
+        .form-message.success {
+            color: var(--text-color);
+        }
+        .form-message.error {
+            color: #FF4136;
         }
 
+        /* --- CSS FOR PAGE TRANSITION --- */
+        .section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            width: 100%;
+            padding: 20px 0;
+        }
+
+        .section.active {
+            opacity: 1;
+        }
+
+        #home {
+            flex-direction: column;
+            align-items: center;
+        }
+        /* --- END OF CSS FOR PAGE TRANSITION --- */
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="site-header">
         <div class="header-area">
-            <div class="sound-wave" id="soundWave">
-                <!-- Bars will be generated by JavaScript -->
-            </div>
-            <h1 class="title">Probable Octo System</h1>
-        </div>
-        <div class="buttons-area">
-            <a href="projects.html" class="btn">PROJECTS</a>
-            <a href="contact.html" class="btn">CONTACT ME</a>
+            <div class="sound-wave" id="soundWaveGlobal"></div>
+            <!-- h1 class="title" id="globalPageTitle" removed -->
         </div>
     </div>
 
+    <div class="container">
+        <!-- Home Section -->
+        <section id="home" class="section">
+            <div class="buttons-area">
+                <button class="btn" data-nav="projects">PROJECTS</button>
+                <button class="btn" data-nav="contact">CONTACT ME</button>
+            </div>
+        </section>
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="projects-list">
+                <div class="project-card">
+                    <div class="project-title">Personal Portfolio Website</div>
+                    <div class="project-desc">This website! A retro-themed portfolio built with HTML, CSS, and JavaScript.</div>
+                    <a href="https://github.com/secgit/probable-octo-system" class="project-btn" target="_blank" rel="noopener noreferrer">View</a>
+                </div>
+            </div>
+            <div class="buttons-area">
+                <button class="btn" data-nav="home">← Back to Home</button>
+            </div>
+        </section>
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="contact-form-area">
+                <h2>Contact Me</h2>
+                <form id="contactForm" novalidate>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required placeholder="YOUR NAME">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required placeholder="YOUR EMAIL ADDRESS">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="YOUR MESSAGE HERE..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+                <p id="formFeedback" class="form-message"></p>
+            </div>
+            <div class="buttons-area">
+                <button class="btn" data-nav="home">← Back to Home</button>
+            </div>
+        </section>
+    </div>
+
     <script>
-        const soundWaveContainer = document.getElementById('soundWave');
-        const numBars = 50; // Number of bars, adjusted for visual width
-        const maxBarHeight = 65; // Max height in pixels for a bar (relative to sound-wave height)
-        const minBarHeight = 2;  // Min height for a bar to be visible
+        const ANIMATION_DURATION = 300;
+        let isPageTransitioning = false;
+        // const globalPageTitleElement removed
 
-        const barBrightColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-bright').trim();
-        const barDimColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-dim').trim();
+        function showSection(sectionId) {
+            if (isPageTransitioning) {
+                return;
+            }
 
-        function createBars() {
-            soundWaveContainer.innerHTML = ''; // Clear existing bars if any
-            for (let i = 0; i < numBars; i++) {
-                const bar = document.createElement('div');
-                bar.classList.add('bar');
-                
-                // Initial random height
-                const initialHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
-                bar.style.height = `${initialHeight}px`;
-                
-                // Initial random color
-                bar.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
-                
-                // Varied width and margin for a more pixelated/dynamic look
-                bar.style.width = `${Math.floor(Math.random() * 4) + 4}px`; // width between 4px and 7px
-                bar.style.margin = `0 ${Math.floor(Math.random() * 2) + 1}px`; // margin 1px or 2px on each side
+            const currentActive = document.querySelector('.section.active');
+            const newSection = document.getElementById(sectionId);
 
-                soundWaveContainer.appendChild(bar);
+            if (!newSection) {
+                console.warn("Section not found:", sectionId);
+                return;
+            }
+            if (currentActive === newSection) {
+                return;
+            }
+            
+            isPageTransitioning = true;
+
+            // Update global page title logic removed
+
+            function completePageTransition() {
+                isPageTransitioning = false;
+            }
+
+            function displayAndFadeInNewSection() {
+                if (newSection.id === 'home') {
+                    newSection.style.display = 'flex';
+                } else {
+                    newSection.style.display = 'block';
+                }
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        newSection.classList.add('active');
+                        setTimeout(completePageTransition, ANIMATION_DURATION);
+                    });
+                });
+            }
+
+            if (currentActive) {
+                currentActive.classList.remove('active');
+                setTimeout(() => {
+                    currentActive.style.display = 'none';
+                    displayAndFadeInNewSection();
+                }, ANIMATION_DURATION);
+            } else {
+                displayAndFadeInNewSection();
             }
         }
 
-        function animateBars() {
-            const bars = soundWaveContainer.querySelectorAll('.bar');
-            bars.forEach(bar => {
-                let newHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
-                
-                // Smooth transition (optional, for a slightly less jerky animation)
-                // let currentHeight = parseFloat(bar.style.height) || 0;
-                // newHeight = currentHeight + (newHeight - currentHeight) * 0.4; 
+        document.addEventListener('DOMContentLoaded', () => {
+            const homeSection = document.getElementById('home');
+            if (homeSection) {
+                homeSection.style.transition = 'none';
+                homeSection.style.display = 'flex';
+                homeSection.classList.add('active');
+                // Initial title setting removed
+                void homeSection.offsetHeight;
+                homeSection.style.transition = '';
+            }
 
-                bar.style.height = `${newHeight}px`;
-
-                // Change color occasionally
-                if (Math.random() > 0.8) { // 20% chance to change color
-                    bar.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
-                }
+            document.querySelectorAll('[data-nav]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    showSection(this.getAttribute('data-nav'));
+                });
             });
-        }
 
-        // Initial setup
-        createBars();
-        
-        // Start animation
-        setInterval(animateBars, 150); // Animation speed (milliseconds)
+            function setupSoundWave(containerId, numBars, maxBarHeight, minBarHeight) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                const barBrightColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-bright').trim();
+                const barDimColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-dim').trim();
+                
+                container.innerHTML = '';
+                for (let i = 0; i < numBars; i++) {
+                    const bar = document.createElement('div');
+                    bar.classList.add('bar');
+                    const initialHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
+                    bar.style.height = `${initialHeight}px`;
+                    bar.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
+                    bar.style.width = `${Math.floor(Math.random() * 4) + 4}px`;
+                    bar.style.margin = `0 ${Math.floor(Math.random() * 2) + 1}px`;
+                    container.appendChild(bar);
+                }
+
+                function animateBars() {
+                    const bars = container.querySelectorAll('.bar');
+                    bars.forEach(barEl => {
+                        let newHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
+                        barEl.style.height = `${newHeight}px`;
+                        if (Math.random() > 0.8) {
+                            barEl.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
+                        }
+                    });
+                }
+                setInterval(animateBars, 150);
+            }
+
+            const standardNumBars = 50;
+            const standardMaxBarHeight = 65;
+            const standardMinBarHeight = 2;
+            setupSoundWave('soundWaveGlobal', standardNumBars, standardMaxBarHeight, standardMinBarHeight);
+
+
+            const contactForm = document.getElementById('contactForm');
+            const formFeedback = document.getElementById('formFeedback');
+            const submitButton = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
+            
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(String(email).toLowerCase());
+            }
+            let feedbackTimeout;
+
+            if (contactForm && submitButton && formFeedback) {
+                contactForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    clearTimeout(feedbackTimeout); 
+
+                    const nameInput = document.getElementById('name');
+                    const emailInput = document.getElementById('email');
+                    const messageInput = document.getElementById('message');
+                    
+                    formFeedback.textContent = '';
+                    formFeedback.className = 'form-message';
+
+                    let isValid = true;
+                    if (!nameInput.value.trim()) {
+                        formFeedback.textContent = 'NAME IS REQUIRED.';
+                        formFeedback.classList.add('error');
+                        nameInput.focus();
+                        isValid = false;
+                    } else if (!emailInput.value.trim()) {
+                        formFeedback.textContent = 'EMAIL IS REQUIRED.';
+                        formFeedback.classList.add('error');
+                        emailInput.focus();
+                        isValid = false;
+                    } else if (!validateEmail(emailInput.value.trim())) {
+                        formFeedback.textContent = 'INVALID EMAIL FORMAT.';
+                        formFeedback.classList.add('error');
+                        emailInput.focus();
+                        isValid = false;
+                    } else if (!messageInput.value.trim()) {
+                        formFeedback.textContent = 'MESSAGE IS REQUIRED.';
+                        formFeedback.classList.add('error');
+                        messageInput.focus();
+                        isValid = false;
+                    }
+
+                    if (!isValid) {
+                        feedbackTimeout = setTimeout(() => {
+                            formFeedback.textContent = '';
+                            formFeedback.className = 'form-message';
+                        }, 4000);
+                        return;
+                    }
+
+                    submitButton.textContent = 'SENDING...';
+                    submitButton.disabled = true;
+
+                    setTimeout(() => {
+                        formFeedback.textContent = 'MESSAGE SENT! (SIMULATED)';
+                        formFeedback.classList.add('success');
+                        contactForm.reset();
+                        submitButton.textContent = 'Send Message';
+                        submitButton.disabled = false;
+
+                        feedbackTimeout = setTimeout(() => {
+                            formFeedback.textContent = '';
+                            formFeedback.className = 'form-message';
+                        }, 5000);
+                    }, 1500);
+                });
+            }
+        });
     </script>
 </body>
 </html>
