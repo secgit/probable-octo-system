@@ -24,6 +24,8 @@
             font-size: 16px;
             overflow-x: hidden;
             overflow-y: auto;
+            /* Added transition for theme changes */
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         .site-header {
@@ -35,6 +37,8 @@
             background-color: var(--bg-color);
             display: flex;
             justify-content: center;
+            /* Added transition for theme changes */
+            transition: background-color 0.4s ease;
         }
 
         .header-area {
@@ -50,15 +54,14 @@
             align-items: flex-end;
             justify-content: center;
             height: 70px;
-            /* margin-bottom: 10px; Removed as title is gone */
             min-width: 300px;
         }
         .bar {
-            background-color: var(--bar-bright);
+            background-color: var(--bar-bright); /* Default color, JS might override */
             display: inline-block;
-            transition: height 0.1s ease-out, background-color 0.2s linear;
+            /* Adjusted transition for smooth color change */
+            transition: height 0.1s ease-out, background-color 0.4s ease;
         }
-        /* .title CSS rule removed as element is gone */
 
         .container {
             width: 100vw;
@@ -67,7 +70,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            /* Adjusted padding-top: 60(header-margin-top) + 70(soundwave) + 40(header-margin-bottom) = 170px */
             padding-top: 170px;
             box-sizing: border-box;
         }
@@ -84,9 +86,11 @@
             text-decoration: none;
             font-size: 0.9rem;
             background-color: transparent;
-            transition: background-color 0.2s, color 0.2s;
+            /* Adjusted transition, added border-color for theme change */
+            transition: background-color 0.2s, color 0.2s, border-color 0.4s ease;
             text-transform: uppercase;
             cursor: pointer;
+            font-family: var(--font-pixel); /* Ensures buttons also use the theme font */
         }
         .btn:hover, .btn:focus {
             background-color: var(--text-color);
@@ -116,33 +120,40 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            /* Added transition for theme changes */
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
         }
         .project-title {
             font-size: 1.3rem;
             margin: 0 0 10px 0;
             color: var(--text-color);
+             /* Added transition for theme changes */
+            transition: color 0.4s ease;
         }
         .project-desc {
             font-size: 1rem;
             margin-bottom: 18px;
             color: var(--text-color);
             opacity: 0.85;
+             /* Added transition for theme changes */
+            transition: color 0.4s ease;
         }
-        .project-btn {
+        .project-btn { /* This is an <a> styled as a button */
             display: inline-block;
             border: 2px solid var(--text-color);
             padding: 7px 18px;
             color: var(--text-color);
             background: transparent;
-            font-family: var(--font-pixel);
+            font-family: var(--font-pixel); /* Will change with --font-pixel variable */
             font-size: 0.9rem;
             text-decoration: none;
             text-transform: uppercase;
             border-radius: 4px;
-            transition: background 0.2s, color 0.2s;
+            /* Adjusted transition, added border-color for theme change */
+            transition: background-color 0.2s, color 0.2s, border-color 0.4s ease;
         }
         .project-btn:hover {
-            background: var(--text-color);
+            background-color: var(--text-color);
             color: var(--bg-color);
         }
         .contact-form-area {
@@ -159,6 +170,8 @@
             margin-bottom: 25px;
             text-align: center;
             text-transform: uppercase;
+            /* Added transition for theme changes */
+            transition: color 0.4s ease;
         }
         #contactForm {
             text-align: center;
@@ -172,6 +185,8 @@
             margin-bottom: 8px;
             font-size: 0.8rem;
             text-transform: uppercase;
+            /* Added transition for theme changes */
+            transition: color 0.4s ease;
         }
         .form-group input[type="text"],
         .form-group input[type="email"],
@@ -179,7 +194,7 @@
             background-color: transparent;
             border: 2px solid var(--input-border-color);
             color: var(--text-color);
-            font-family: var(--font-pixel);
+            font-family: var(--font-pixel); /* Will change with --font-pixel variable */
             font-size: 0.8rem;
             padding: 12px;
             box-sizing: border-box;
@@ -189,19 +204,22 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            transition: border-color 0.2s;
+            /* Unified transition for theme changes and focus */
+            transition: border-color 0.4s ease, background-color 0.4s ease, color 0.4s ease;
         }
         .form-group input[type="text"]:focus,
         .form-group input[type="email"]:focus,
         .form-group textarea:focus {
-            border-color: var(--text-color);
+            border-color: var(--text-color); /* This change will use the 0.4s transition */
         }
         .form-group input[type="text"]::placeholder,
         .form-group input[type="email"]::placeholder,
         .form-group textarea::placeholder {
             color: var(--placeholder-color);
-            font-family: var(--font-pixel);
+            font-family: var(--font-pixel); /* Will change with --font-pixel variable */
             opacity: 1;
+             /* Added transition for theme changes */
+            transition: color 0.4s ease;
         }
         .form-group textarea {
             resize: vertical;
@@ -212,12 +230,14 @@
             font-size: 0.8rem;
             min-height: 1.2em;
             text-align: center;
+            /* Added transition for theme changes */
+            transition: color 0.4s ease;
         }
         .form-message.success {
-            color: var(--text-color);
+            color: var(--text-color); 
         }
         .form-message.error {
-            color: #FF4136;
+            color: #FF4136; 
         }
 
         /* --- CSS FOR PAGE TRANSITION --- */
@@ -238,14 +258,55 @@
             align-items: center;
         }
         /* --- END OF CSS FOR PAGE TRANSITION --- */
+
+        /* --- THEME TOGGLE BUTTON --- */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001; 
+            padding: 8px 15px; /* Slightly smaller */
+            font-size: 0.8rem;  /* Slightly smaller */
+            border-width: 2px;  /* Consistent with project-btn */
+        }
+
+        /* --- LIGHT THEME --- */
+        body.light-theme {
+            --bg-color: #F4F4F8; /* Light gray background */
+            --text-color: #333333; /* Dark gray text */
+            --bar-bright: #4A90E2; /* A pleasant blue for sound wave */
+            --bar-dim: #2C578C;    /* Darker blue for sound wave */
+            --font-pixel: 'Arial', sans-serif; /* Standard readable font */
+            --input-border-color: #B0B0B0; /* Medium gray border for inputs */
+            --placeholder-color: #888888; /* Lighter gray for placeholders */
+        }
+        /* Specific overrides for light theme consistency */
+        body.light-theme .project-card {
+            background: #FFFFFF; /* White card background */
+            border-color: #D0D0D0; /* Lighter border for cards */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+        }
+        body.light-theme .form-group input[type="text"],
+        body.light-theme .form-group input[type="email"],
+        body.light-theme .form-group textarea {
+            background-color: #FFFFFF; /* White input background for light theme */
+        }
+        body.light-theme .form-message.success {
+            color: #28A745; /* Standard success green for light theme */
+        }
+        body.light-theme .form-message.error {
+            color: #DC3545; /* Standard error red for light theme */
+        }
+
     </style>
 </head>
 <body>
     <div class="site-header">
         <div class="header-area">
             <div class="sound-wave" id="soundWaveGlobal"></div>
-            <!-- h1 class="title" id="globalPageTitle" removed -->
         </div>
+        <!-- Theme Toggle Button -->
+        <button id="themeToggleButton" class="btn theme-toggle-btn">Light Mode</button>
     </div>
 
     <div class="container">
@@ -258,6 +319,9 @@
         </section>
         <!-- Projects Section -->
         <section id="projects" class="section">
+            <div class="buttons-area" style="margin-bottom: 24px; justify-content: flex-start; display: flex;">
+                <button class="btn" data-nav="home">← Back to Home</button>
+            </div>
             <div class="projects-list">
                 <div class="project-card">
                     <div class="project-title">Personal Portfolio Website</div>
@@ -265,12 +329,12 @@
                     <a href="https://github.com/secgit/probable-octo-system" class="project-btn" target="_blank" rel="noopener noreferrer">View</a>
                 </div>
             </div>
-            <div class="buttons-area">
-                <button class="btn" data-nav="home">← Back to Home</button>
-            </div>
         </section>
         <!-- Contact Section -->
         <section id="contact" class="section">
+            <div class="buttons-area" style="margin-bottom: 24px; justify-content: flex-start; display: flex;">
+                <button class="btn" data-nav="home">← Back to Home</button>
+            </div>
             <div class="contact-form-area">
                 <h2>Contact Me</h2>
                 <form id="contactForm" novalidate>
@@ -290,25 +354,19 @@
                 </form>
                 <p id="formFeedback" class="form-message"></p>
             </div>
-            <div class="buttons-area">
-                <button class="btn" data-nav="home">← Back to Home</button>
-            </div>
         </section>
     </div>
 
     <script>
         const ANIMATION_DURATION = 300;
         let isPageTransitioning = false;
-        // const globalPageTitleElement removed
 
         function showSection(sectionId) {
             if (isPageTransitioning) {
                 return;
             }
-
             const currentActive = document.querySelector('.section.active');
             const newSection = document.getElementById(sectionId);
-
             if (!newSection) {
                 console.warn("Section not found:", sectionId);
                 return;
@@ -316,15 +374,10 @@
             if (currentActive === newSection) {
                 return;
             }
-            
             isPageTransitioning = true;
-
-            // Update global page title logic removed
-
             function completePageTransition() {
                 isPageTransitioning = false;
             }
-
             function displayAndFadeInNewSection() {
                 if (newSection.id === 'home') {
                     newSection.style.display = 'flex';
@@ -338,7 +391,6 @@
                     });
                 });
             }
-
             if (currentActive) {
                 currentActive.classList.remove('active');
                 setTimeout(() => {
@@ -356,7 +408,6 @@
                 homeSection.style.transition = 'none';
                 homeSection.style.display = 'flex';
                 homeSection.classList.add('active');
-                // Initial title setting removed
                 void homeSection.offsetHeight;
                 homeSection.style.transition = '';
             }
@@ -367,41 +418,214 @@
                 });
             });
 
-            function setupSoundWave(containerId, numBars, maxBarHeight, minBarHeight) {
+            // --- THEME TOGGLE LOGIC ---
+            const themeToggleButtonElem = document.getElementById('themeToggleButton');
+            const bodyElem = document.body;
+            const SW_NUM_BARS = 50; // Number of bars in the sound wave
+            const SW_MAX_HEIGHT = 65; // Max height of a bar in pixels
+            const SW_MIN_HEIGHT = 2;  // Min height of a bar in pixels
+
+            // --- START OF NEW SOUNDWAVE ANIMATION LOGIC ---
+            let globalSoundWaveNormalIntervalId = null;
+            let globalSoundWaveWordSchedulerIntervalId = null;
+            let globalSoundWaveWordDisplayTimeoutId = null;
+            let globalIsDisplayingWord = false;
+
+            const FOUR_LETTER_WORDS = ["CODE", "GAME", "PLAY", "TEST", "HOME", "LINK", "BEAM", "DATA", "SYNC", "HACK", "USER", "SITE", "CHAT", "PING", "PONG", "TECH"];
+            const CHAR_WIDTH = 5; // Bars per character
+            const GAP_WIDTH = 3;  // Bars between characters
+            const TOTAL_WORD_WIDTH = 4 * CHAR_WIDTH + 3 * GAP_WIDTH; // Total bars used by 4 letters and 3 gaps
+            // Calculate start offset based on SW_NUM_BARS to center the word
+            const START_OFFSET = Math.floor((SW_NUM_BARS - TOTAL_WORD_WIDTH) / 2);
+
+
+            // Height percentages (0-100)
+            const P0 = 0, P20 = 20, P40 = 40, P60 = 60, P80 = 80, P100 = 100;
+            const letterPatterns = {
+                'A': [P40, P80, P100, P80, P40], 'B': [P100, P60, P80, P60, P100],
+                'C': [P100, P60, P40, P20, P40], 'D': [P100, P80, P60, P80, P100],
+                'E': [P100, P40, P80, P40, P100], 'F': [P100, P40, P80, P20, P20],
+                'G': [P100, P60, P40, P60, P80], 'H': [P100, P20, P80, P20, P100],
+                'I': [P20, P20, P100, P20, P20], 'J': [P40, P40, P20, P60, P100],
+                'K': [P100, P40, P80, P60, P100],'L': [P100, P20, P20, P20, P20],
+                'M': [P100, P60, P100, P60, P100],'N': [P100, P60, P40, P80, P100],
+                'O': [P80, P100, P60, P100, P80],'P': [P100, P80, P60, P40, P40],
+                'Q': [P80, P100, P60, P80, P60], 
+                'R': [P100, P80, P60, P40, P80], 'S': [P100, P20, P80, P40, P100],
+                'T': [P80, P80, P100, P20, P20], 'U': [P80, P100, P100, P100, P80], // U shape
+                'V': [P100, P60, P20, P60, P100],'W': [P100, P80, P40, P80, P100], 
+                'X': [P100, P60, P20, P60, P100], 
+                'Y': [P100, P60, P20, P60, P100], 
+                'Z': [P100, P20, P60, P80, P100]
+            };
+
+            function calculateBarHeight(percent, minH, maxH) {
+                return Math.max(minH, minH + (maxH - minH) * (percent / 100));
+            }
+
+            function animateNormalSoundWave(barElements, maxBarHeight, minBarHeight) {
+                if (globalIsDisplayingWord) return; // Don't animate if a word is being shown
+
+                const currentThemeBarBrightColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-bright').trim();
+                const currentThemeBarDimColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-dim').trim();
+
+                barElements.forEach(barEl => {
+                    let newHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
+                    barEl.style.height = `${newHeight}px`;
+                    // Only change color sometimes, using the latest theme colors
+                    if (Math.random() > 0.8) { 
+                        barEl.style.backgroundColor = Math.random() > 0.5 ? currentThemeBarBrightColor : currentThemeBarDimColor;
+                    }
+                });
+            }
+
+            function startNormalSoundWaveAnimation(container, numBars, maxBarHeight, minBarHeight) {
+                if (globalSoundWaveNormalIntervalId) clearInterval(globalSoundWaveNormalIntervalId); // Clear previous interval
+                
+                const barElements = Array.from(container.querySelectorAll('.bar'));
+                // Do not start if no bars or if a word is currently meant to be displayed
+                if (barElements.length === 0 || globalIsDisplayingWord) {
+                    return;
+                }
+                
+                animateNormalSoundWave(barElements, maxBarHeight, minBarHeight); // Call once immediately for first frame
+
+                globalSoundWaveNormalIntervalId = setInterval(() => {
+                    animateNormalSoundWave(barElements, maxBarHeight, minBarHeight);
+                }, 150);
+            }
+
+            function displayWordAnimation(container, numBars, maxBarHeight, minBarHeight) {
+                if (globalIsDisplayingWord) return; // Prevent re-entry if already displaying
+
+                globalIsDisplayingWord = true;
+                // Stop the normal animation
+                if (globalSoundWaveNormalIntervalId) {
+                    clearInterval(globalSoundWaveNormalIntervalId);
+                    globalSoundWaveNormalIntervalId = null; // Mark as inactive
+                }
+
+                const barElements = Array.from(container.querySelectorAll('.bar'));
+                if (barElements.length === 0) { // Safety check
+                    globalIsDisplayingWord = false; // Reset flag
+                    startNormalSoundWaveAnimation(container, numBars, maxBarHeight, minBarHeight); // Attempt to resume normal
+                    return;
+                }
+                const word = FOUR_LETTER_WORDS[Math.floor(Math.random() * FOUR_LETTER_WORDS.length)];
+
+                // Get current theme colors for word display
+                const currentThemeBarBrightColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-bright').trim();
+                const currentThemeBarDimColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-dim').trim();
+
+                // Prepare all bars for word: set to min height and dim color (for gaps and unused spaces)
+                barElements.forEach(bar => {
+                    bar.style.height = `${minBarHeight}px`;
+                    bar.style.backgroundColor = currentThemeBarDimColor;
+                });
+
+                let currentBarArrIndex = START_OFFSET; // Current bar index in the barElements array
+
+                for (let i = 0; i < 4; i++) { // For each of the 4 letters in the word
+                    // Boundary check for currentBarArrIndex
+                    if (currentBarArrIndex < 0 || currentBarArrIndex >= numBars) break; 
+
+                    const char = word[i];
+                    const pattern = letterPatterns[char] || Array(CHAR_WIDTH).fill(P0); // Default to blank if char not in patterns
+
+                    for (let j = 0; j < CHAR_WIDTH; j++) { // For each bar in the character's pattern
+                        const targetBarIndex = currentBarArrIndex + j;
+                        if (targetBarIndex < numBars) { // Ensure bar index is within bounds
+                            const bar = barElements[targetBarIndex];
+                            const heightPercent = pattern[j];
+                            bar.style.height = `${calculateBarHeight(heightPercent, minBarHeight, maxBarHeight)}px`;
+                            // Color "on" parts of letters brightly, "off" parts (P0) and gaps remain dim
+                            bar.style.backgroundColor = (heightPercent > P0) ? currentThemeBarBrightColor : currentThemeBarDimColor;
+                        }
+                    }
+                    currentBarArrIndex += CHAR_WIDTH; // Move to the start of the next segment (gap or letter)
+
+                    if (i < 3) { // If not the last letter, account for the gap
+                        // Gap bars are already set to minHeight and dimColor by the initial loop over barElements
+                        currentBarArrIndex += GAP_WIDTH;
+                    }
+                }
+
+                clearTimeout(globalSoundWaveWordDisplayTimeoutId); // Clear any previous display timeout
+                globalSoundWaveWordDisplayTimeoutId = setTimeout(() => {
+                    globalIsDisplayingWord = false; // Word display finished
+                    // Resume normal animation
+                    startNormalSoundWaveAnimation(container, numBars, maxBarHeight, minBarHeight);
+                }, 1000); // Word displayed for 1 second
+            }
+            // --- END OF NEW SOUNDWAVE ANIMATION LOGIC ---
+
+
+            function _setupSoundWave(containerId, numBars, maxBarHeight, minBarHeight) {
                 const container = document.getElementById(containerId);
                 if (!container) return;
+
+                // Clear ALL previous intervals and timeouts to prevent duplicates on re-setup (e.g., theme change)
+                if (globalSoundWaveNormalIntervalId) clearInterval(globalSoundWaveNormalIntervalId);
+                if (globalSoundWaveWordSchedulerIntervalId) clearInterval(globalSoundWaveWordSchedulerIntervalId);
+                if (globalSoundWaveWordDisplayTimeoutId) clearTimeout(globalSoundWaveWordDisplayTimeoutId);
+                globalIsDisplayingWord = false; // Reset the flag
+
+                // Get initial theme colors for bar creation
                 const barBrightColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-bright').trim();
                 const barDimColor = getComputedStyle(document.documentElement).getPropertyValue('--bar-dim').trim();
                 
-                container.innerHTML = '';
+                container.innerHTML = ''; // Clear any existing bars from the container
+
+                // Create new bar elements
                 for (let i = 0; i < numBars; i++) {
                     const bar = document.createElement('div');
                     bar.classList.add('bar');
                     const initialHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
                     bar.style.height = `${initialHeight}px`;
+                    // Set initial background color based on theme for newly created bars
                     bar.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
-                    bar.style.width = `${Math.floor(Math.random() * 4) + 4}px`;
-                    bar.style.margin = `0 ${Math.floor(Math.random() * 2) + 1}px`;
+                    bar.style.width = `${Math.floor(Math.random() * 4) + 4}px`; // Random width
+                    bar.style.margin = `0 ${Math.floor(Math.random() * 2) + 1}px`; // Random margin
                     container.appendChild(bar);
                 }
+                
+                // Start the normal random bar animation
+                startNormalSoundWaveAnimation(container, numBars, maxBarHeight, minBarHeight);
 
-                function animateBars() {
-                    const bars = container.querySelectorAll('.bar');
-                    bars.forEach(barEl => {
-                        let newHeight = Math.random() * (maxBarHeight - minBarHeight) + minBarHeight;
-                        barEl.style.height = `${newHeight}px`;
-                        if (Math.random() > 0.8) {
-                            barEl.style.backgroundColor = Math.random() > 0.5 ? barBrightColor : barDimColor;
-                        }
-                    });
-                }
-                setInterval(animateBars, 150);
+                // Schedule the word display animation
+                // Interval: 5 seconds of normal animation, then 1 second for word display = 6 second cycle.
+                // So, trigger displayWordAnimation every 6 seconds.
+                globalSoundWaveWordSchedulerIntervalId = setInterval(() => {
+                    // displayWordAnimation has its own check for globalIsDisplayingWord to prevent re-entry
+                    displayWordAnimation(container, numBars, maxBarHeight, minBarHeight);
+                }, 5000 + 1000); 
             }
 
-            const standardNumBars = 50;
-            const standardMaxBarHeight = 65;
-            const standardMinBarHeight = 2;
-            setupSoundWave('soundWaveGlobal', standardNumBars, standardMaxBarHeight, standardMinBarHeight);
+            function _applyTheme(themeName) {
+                if (themeName === 'light') {
+                    bodyElem.classList.add('light-theme');
+                    if(themeToggleButtonElem) themeToggleButtonElem.textContent = 'Retro Mode';
+                    localStorage.setItem('portfolioTheme', 'light');
+                } else { // 'retro'
+                    bodyElem.classList.remove('light-theme');
+                    if(themeToggleButtonElem) themeToggleButtonElem.textContent = 'Light Mode';
+                    localStorage.setItem('portfolioTheme', 'retro');
+                }
+                // Re-initialize sound wave to use new theme's CSS variables and restart animations
+                _setupSoundWave('soundWaveGlobal', SW_NUM_BARS, SW_MAX_HEIGHT, SW_MIN_HEIGHT);
+            }
+
+            // Load saved theme or default to retro, then apply it (which also sets up sound wave)
+            const savedPortfolioTheme = localStorage.getItem('portfolioTheme') || 'retro';
+            _applyTheme(savedPortfolioTheme); 
+
+            if (themeToggleButtonElem) {
+                themeToggleButtonElem.addEventListener('click', () => {
+                    const currentTheme = bodyElem.classList.contains('light-theme') ? 'light' : 'retro';
+                    _applyTheme(currentTheme === 'light' ? 'retro' : 'light');
+                });
+            }
+            // --- END THEME TOGGLE LOGIC ---
 
 
             const contactForm = document.getElementById('contactForm');
@@ -424,7 +648,7 @@
                     const messageInput = document.getElementById('message');
                     
                     formFeedback.textContent = '';
-                    formFeedback.className = 'form-message';
+                    formFeedback.className = 'form-message'; // Reset classes, CSS will handle themed coloring
 
                     let isValid = true;
                     if (!nameInput.value.trim()) {
